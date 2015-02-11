@@ -98,17 +98,17 @@ public class TestAdamReadFilters {
     int numReads = 10;
     Long[] mapLocations = randomMapLocations(numReads);
     String[] dnaSequences = new String[numReads];
-    long[] ids = new long[numReads];
+    String[] ids = new String[numReads];
     int j=1,k=numReads*2;
     for(int i=0; i<numReads; i++)
     {
       dnaSequences[i]=randomDNAGenerator();
       if(i%2==0) {
-        ids[i]=j;
+        ids[i]=""+j;
         j+=2;
       }
       else {
-        ids[i]=k;
+        ids[i]=""+k;
         k-=2;
       }
     }
@@ -121,7 +121,7 @@ public class TestAdamReadFilters {
     return makeReads(ids, mapLocations, dnaSequences, maxRandKey1, maxRandKey2);
   }
 
-  public static List<AdamRead> makeReads(long[] id, Long[] mapLocations, String[] dnaSequences, long maxKey1, long maxKey2){
+  public static List<AdamRead> makeReads(String[] id, Long[] mapLocations, String[] dnaSequences, long maxKey1, long maxKey2){
     List<AdamRead> reads = new ArrayList<AdamRead>();
     int numReads = mapLocations.length;
     

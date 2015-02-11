@@ -21,7 +21,7 @@ import parquet.schema.MessageTypeParser;
 public class AdamWriter {
   private static final String schemaString =
       "message adamRead {\n"
-          + " required int64 id;\n"
+          + " required binary id (UTF8);\n"
           + " required binary dnaString (UTF8);\n"
           + " required int64 mapLocation;\n"
           + " optional int64 randomKey1;\n"
@@ -31,11 +31,11 @@ public class AdamWriter {
   private static final MessageType schema = MessageTypeParser.parseMessageType(schemaString);
 
   public static class AdamRead {
-    private final long id;
+    private final String id;
     private final Long randomKey1, randomKey2, mapLocation;
     private final String dnaString;
 
-    public AdamRead(long id, String dnaString, Long mapLocation, Long randomKey1, Long randomKey2){
+    public AdamRead(String id, String dnaString, Long mapLocation, Long randomKey1, Long randomKey2){
       this.id = id;
       this.dnaString = dnaString;
       this.mapLocation=mapLocation;
@@ -43,7 +43,7 @@ public class AdamWriter {
       this.randomKey2 = randomKey2;
     }
 
-    public long getId(){    //ID is intended as unique primary key
+    public String getId(){    //ID is intended as unique primary key
       return id;
     }
 
@@ -79,7 +79,7 @@ public class AdamWriter {
 
     @Override
     public int hashCode() {
-      long result = (int) (id ^ (id >>> 32));
+      long result = id.hashCode();
       result = 31 * result + dnaString.hashCode();
       result = 31 * result + mapLocation.hashCode();
       result = 31 * result + (randomKey1 != null ? randomKey1.hashCode():0);
